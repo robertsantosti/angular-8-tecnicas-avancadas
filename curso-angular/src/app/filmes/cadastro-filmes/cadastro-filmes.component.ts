@@ -13,7 +13,6 @@ export class CadastroFilmesComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-
     this.cadastro = this.formBuilder.group({
       title:['', [Validators.required, Validators.minLength(2), Validators.maxLength(256)]],
       urlPhoto:['', [Validators.minLength(10)]],
@@ -23,10 +22,14 @@ export class CadastroFilmesComponent implements OnInit {
       imdbUrl:['', [Validators.minLength(10)]],
       gender:['', [Validators.required]]
     });
+  }
 
+  get f() {
+    return this.cadastro.controls;
   }
 
   public save(): void {
+    this.cadastro.markAllAsTouched();
     if(this.cadastro.invalid){
       return;
     }
