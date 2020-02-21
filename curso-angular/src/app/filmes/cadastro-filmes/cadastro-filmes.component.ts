@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { ValidateInputsService } from 'src/app/shared/components/campos/validate-inputs.service';
 
 @Component({
   selector: 'dio-cadastro-filmes',
@@ -10,7 +11,7 @@ export class CadastroFilmesComponent implements OnInit {
 
   cadastro: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(public validate: ValidateInputsService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.cadastro = this.formBuilder.group({
