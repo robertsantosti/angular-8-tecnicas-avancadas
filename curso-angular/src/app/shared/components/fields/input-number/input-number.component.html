@@ -14,10 +14,10 @@
       >Campo Obrigatorio</mat-error
     >
     <mat-error *ngIf="validate.hasErrorValidate(formControl, 'min')"
-      >Nota minima 0</mat-error
+      >Nota minima {{ minimum }}</mat-error
     >
     <mat-error *ngIf="validate.hasErrorValidate(formControl, 'max')"
-      >Nota maxima 10</mat-error
+      >Nota maxima {{ maximum }}</mat-error
     >
   </mat-form-field>
 </div>

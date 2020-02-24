@@ -1,28 +1,51 @@
-import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { ValidateInputsService } from 'src/app/shared/components/campos/validate-inputs.service';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ValidateInputsService } from "src/app/shared/components/campos/validate-inputs.service";
 
 @Component({
-  selector: 'dio-cadastro-filmes',
-  templateUrl: './cadastro-filmes.component.html',
-  styleUrls: ['./cadastro-filmes.component.scss']
+  selector: "dio-cadastro-filmes",
+  templateUrl: "./cadastro-filmes.component.html",
+  styleUrls: ["./cadastro-filmes.component.scss"]
 })
 export class CadastroFilmesComponent implements OnInit {
-
   cadastro: FormGroup;
+  genders: Array<string>;
 
-  constructor(public validate: ValidateInputsService, private formBuilder: FormBuilder) { }
+  constructor(
+    public validate: ValidateInputsService,
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit() {
     this.cadastro = this.formBuilder.group({
-      title:['', [Validators.required, Validators.minLength(2), Validators.maxLength(256)]],
-      urlPhoto:['', [Validators.minLength(10)]],
-      releseDate:['', [Validators.required]],
-      description:[''],
-      imdbRating:[0, [Validators.required, Validators.min(0), Validators.max(10)]],
-      imdbUrl:['', [Validators.minLength(10)]],
-      gender:['', [Validators.required]]
+      title: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(256)
+        ]
+      ],
+      urlPhoto: ["", [Validators.minLength(10)]],
+      releseDate: ["", [Validators.required]],
+      description: [""],
+      imdbRating: [
+        0,
+        [Validators.required, Validators.min(0), Validators.max(10)]
+      ],
+      imdbUrl: ["", [Validators.minLength(10)]],
+      gender: ["", [Validators.required]]
     });
+
+    this.genders = [
+      "Ação",
+      "Romance",
+      "Aventura",
+      "Terror",
+      "Ficção Cientifica",
+      "Comedia",
+      "Drama"
+    ];
   }
 
   get f() {
@@ -31,15 +54,14 @@ export class CadastroFilmesComponent implements OnInit {
 
   public save(): void {
     this.cadastro.markAllAsTouched();
-    if(this.cadastro.invalid){
+    if (this.cadastro.invalid) {
       return;
     }
 
-    alert('Sucesso!!\n\n' + JSON.stringify(this.cadastro.value, null, 4));
+    alert("Sucesso!!\n\n" + JSON.stringify(this.cadastro.value, null, 4));
   }
 
   public resetForm(): void {
     this.cadastro.reset();
   }
-
 }

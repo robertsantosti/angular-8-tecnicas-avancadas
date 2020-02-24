@@ -1,7 +1,13 @@
 <mat-toolbar class="app-title">Cadastrar Filme</mat-toolbar>
 <div class="main-div">
   <mat-card class="center width50">
-    <form [formGroup]="cadastro" (ngSubmit)="save()" (ngReset)="resetForm()">
+    <form
+      autocomplete="off"
+      novalidate
+      [formGroup]="cadastro"
+      (ngSubmit)="save()"
+      (ngReset)="resetForm()"
+    >
       <mat-card-content>
         <dio-input-text
           title="Titulo"
@@ -38,6 +44,7 @@
           title="Genero"
           controlName="gender"
           [formGroup]="cadastro"
+          [options]="genders"
         ></dio-select>
       </mat-card-content>
       <mat-card-actions>

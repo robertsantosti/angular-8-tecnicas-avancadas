@@ -11,6 +11,7 @@ export class SelectComponent implements OnInit {
   @Input() title: string;
   @Input() controlName: string;
   @Input() formGroup: FormGroup;
+  @Input() options: Array<string>;
 
   constructor(public validate: ValidateInputsService) {}
 
