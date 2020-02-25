@@ -6,7 +6,7 @@
   <div mat-dialog-actions>
     <button
       mat-raised-button
-      [color]="data.btnColor"
+      [color]="data.btnColorSuccess"
       [mat-dialog-close]="true"
       cdkFocusInitial
     >
@@ -14,9 +14,9 @@
     </button>
     <button
       mat-raised-button
-      color="warn"
+      [color]="data.btnColorCancel"
       [mat-dialog-close]="false"
-      *ngIf="hasBtnClose"
+      *ngIf="data.hasBtnClose"
     >
       {{ data.btnCancel }}
     </button>

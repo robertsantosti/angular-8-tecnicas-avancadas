@@ -79,15 +79,25 @@ export class CadastroFilmesComponent implements OnInit {
           data: {
             title: "Sucesso!",
             description: "Seu registro foi cadastrado com sucesso!",
-            btnSuccess: "Ok",
-            btnCancel: "Cancelar",
-            btnColor: "primary",
-            hasBtnClose: false
+            btnSuccess: "Ir para a listagem",
+            btnCancel: "Cadastrar novo filme",
+            btnColorSuccess: "accent",
+            btnColorCancel: "primary",
+            hasBtnClose: true
           }
         });
       },
       () => {
-        alert("Erro");
+        const dialogRef = this.dialog.open(AlertComponent, {
+          data: {
+            title: "Erro!",
+            description: "Não foi possivel cadastrar esse registro!",
+            btnSuccess: "Tentar novamente",
+            btnCancel: "Fechar",
+            btnColor: "primary",
+            hasBtnClose: false
+          }
+        });
       }
     );
   }
