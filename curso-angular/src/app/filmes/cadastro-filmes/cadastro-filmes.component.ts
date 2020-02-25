@@ -1,6 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ValidateInputsService } from "src/app/shared/components/campos/validate-inputs.service";
+import { Film } from "src/app/shared/models/film";
+import { FilmsService } from "src/app/core/films.service";
+import { MatDialog } from "@angular/material/dialog";
+import { AlertComponent } from "src/app/shared/components/alert/alert.component";
 
 @Component({
   selector: "dio-cadastro-filmes",
@@ -13,7 +17,9 @@ export class CadastroFilmesComponent implements OnInit {
 
   constructor(
     public validate: ValidateInputsService,
-    private formBuilder: FormBuilder
+    public dialog: MatDialog,
+    private formBuilder: FormBuilder,
+    private filmService: FilmsService
   ) {}
 
   ngOnInit() {
@@ -52,16 +58,37 @@ export class CadastroFilmesComponent implements OnInit {
     return this.cadastro.controls;
   }
 
-  public save(): void {
+  public submit(): void {
     this.cadastro.markAllAsTouched();
     if (this.cadastro.invalid) {
       return;
     }
 
-    alert("Sucesso!!\n\n" + JSON.stringify(this.cadastro.value, null, 4));
+    const film = this.cadastro.getRawValue() as Film;
+    this.save(film);
   }
 
   public resetForm(): void {
     this.cadastro.reset();
+  }
+
+  private save(film: Film): void {
+    this.filmService.save(film).subscribe(
+      () => {
+        const dialogRef = this.dialog.open(AlertComponent, {
+          data: {
+            title: "Sucesso!",
+            description: "Seu registro foi cadastrado com sucesso!",
+            btnSuccess: "Ok",
+            btnCancel: "Cancelar",
+            btnColor: "primary",
+            hasBtnClose: false
+          }
+        });
+      },
+      () => {
+        alert("Erro");
+      }
+    );
   }
 }
