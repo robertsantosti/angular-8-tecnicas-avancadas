@@ -1,10 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
+import { Router } from "@angular/router";
 import { ValidateInputsService } from "src/app/shared/components/campos/validate-inputs.service";
 import { Film } from "src/app/shared/models/film";
-import { FilmsService } from "src/app/core/films.service";
-import { MatDialog } from "@angular/material/dialog";
 import { AlertComponent } from "src/app/shared/components/alert/alert.component";
+import { FilmsService } from "src/app/core/films.service";
 
 @Component({
   selector: "dio-cadastro-filmes",
@@ -19,7 +20,8 @@ export class CadastroFilmesComponent implements OnInit {
     public validate: ValidateInputsService,
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
-    private filmService: FilmsService
+    private filmService: FilmsService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -86,15 +88,21 @@ export class CadastroFilmesComponent implements OnInit {
             hasBtnClose: true
           }
         });
+        dialogRef.afterClosed().subscribe((option: boolean) => {
+          if (option) {
+            this.router.navigateByUrl("filmes");
+          } else {
+            this.resetForm();
+          }
+        });
       },
       () => {
-        const dialogRef = this.dialog.open(AlertComponent, {
+        this.dialog.open(AlertComponent, {
           data: {
             title: "Erro!",
             description: "Não foi possivel cadastrar esse registro!",
-            btnSuccess: "Tentar novamente",
-            btnCancel: "Fechar",
-            btnColor: "primary",
+            btnSuccess: "Fechar",
+            btnColorSuccess: "warn",
             hasBtnClose: false
           }
         });
