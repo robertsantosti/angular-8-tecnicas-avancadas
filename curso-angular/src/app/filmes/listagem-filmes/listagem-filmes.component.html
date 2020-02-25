@@ -1,4 +1,27 @@
 <mat-toolbar class="app-title">Filmes Cadastrados</mat-toolbar>
+<mat-card class="float-left margin-10 filtro-listagem">
+  <form autocomplete="off" novalidate [formGroup]="filterList">
+    <div class="float-left width50">
+      <div class="padding10">
+        <dio-input-text
+          title="Pesquise aqui"
+          controlName="text"
+          [formGroup]="filterList"
+        ></dio-input-text>
+      </div>
+    </div>
+    <div class="float-left width50">
+      <div class="padding10">
+        <dio-select
+          title="Gênero"
+          [options]="genders"
+          controlName="gender"
+          [formGroup]="filterList"
+        ></dio-select>
+      </div>
+    </div>
+  </form>
+</mat-card>
 <div class="home-content" infiniteScroll (scrolled)="onScroll()">
   <mat-card class="home-card" *ngFor="let film of films">
     <mat-card-header>
