@@ -14,4 +14,8 @@ export class FilmsService {
   save(film: Film): Observable<Film> {
     return this.http.post<Film>(url, film);
   }
+
+  get(): Observable<Film[]> {
+    return this.http.get<Film[]>(url);
+  }
 }
