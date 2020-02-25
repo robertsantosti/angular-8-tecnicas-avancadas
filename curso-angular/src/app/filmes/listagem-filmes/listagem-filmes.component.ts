@@ -8,12 +8,25 @@ import { Film } from "src/app/shared/models/film";
   styleUrls: ["./listagem-filmes.component.scss"]
 })
 export class ListagemFilmesComponent implements OnInit {
-  films: Film[];
+  films: Film[] = [];
+  page = 0;
+  readonly quant = 4;
 
   constructor(private filmsService: FilmsService) {}
 
-  ngOnInit() {
-    this.filmsService.get().subscribe((films: Film[]) => (this.films = films));
+  ngOnInit(): void {
+    this.showFilms();
+  }
+
+  onScroll(): void {
+    this.showFilms();
+  }
+
+  private showFilms(): void {
+    this.page++;
+    this.filmsService
+      .get(this.page, this.quant)
+      .subscribe((films: Film[]) => this.films.push(...films));
   }
 
   open() {}
