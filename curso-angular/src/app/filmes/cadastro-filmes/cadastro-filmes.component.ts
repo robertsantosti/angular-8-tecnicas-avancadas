@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { ValidateInputsService } from "src/app/shared/components/campos/validate-inputs.service";
 import { Film } from "src/app/shared/models/film";
 import { AlertComponent } from "src/app/shared/components/alert/alert.component";
@@ -15,35 +15,27 @@ import { FilmsService } from "src/app/core/films.service";
 export class CadastroFilmesComponent implements OnInit {
   cadastro: FormGroup;
   genders: Array<string>;
+  id: number;
 
   constructor(
     public validate: ValidateInputsService,
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
     private filmService: FilmsService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.cadastro = this.formBuilder.group({
-      title: [
-        "",
-        [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(256)
-        ]
-      ],
-      urlPhoto: ["", [Validators.minLength(10)]],
-      releseDate: ["", [Validators.required]],
-      description: [""],
-      imdbRating: [
-        0,
-        [Validators.required, Validators.min(0), Validators.max(10)]
-      ],
-      imdbUrl: ["", [Validators.minLength(10)]],
-      gender: ["", [Validators.required]]
-    });
+    this.id = this.activatedRoute.snapshot.params["id"];
+
+    if (this.id) {
+      this.filmService
+        .show(this.id)
+        .subscribe((film: Film) => this.setupData(film));
+    } else {
+      this.setupData(this.createNullFilm());
+    }
 
     this.genders = [
       "Ação",
@@ -108,5 +100,40 @@ export class CadastroFilmesComponent implements OnInit {
         });
       }
     );
+  }
+
+  private setupData(film: Film): void {
+    this.cadastro = this.formBuilder.group({
+      title: [
+        film.title,
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(256)
+        ]
+      ],
+      urlPhoto: [film.urlPhoto, [Validators.minLength(10)]],
+      releseDate: [film.releseDate, [Validators.required]],
+      description: [film.description],
+      imdbRating: [
+        film.imdbRating,
+        [Validators.required, Validators.min(0), Validators.max(10)]
+      ],
+      imdbUrl: [film.imdbUrl, [Validators.minLength(10)]],
+      gender: [film.gender, [Validators.required]]
+    });
+  }
+
+  private createNullFilm(): Film {
+    return {
+      id: null,
+      title: null,
+      urlPhoto: null,
+      releseDate: null,
+      description: null,
+      imdbRating: null,
+      imdbUrl: null,
+      gender: null
+    };
   }
 }

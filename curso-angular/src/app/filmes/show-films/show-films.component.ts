@@ -50,6 +50,10 @@ export class ShowFilmsComponent implements OnInit {
     });
   }
 
+  edit(): void {
+    this.router.navigateByUrl(`filmes/cadastro/${this.id}`);
+  }
+
   private show(): void {
     this.filmsService.show(this.id).subscribe((film: Film) => {
       this.film = film;
