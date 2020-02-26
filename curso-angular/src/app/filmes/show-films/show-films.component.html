@@ -1,0 +1,19 @@
+<mat-list *ngIf="film; else noRegister">
+  <mat-list-item>Título: {{ film.title }}</mat-list-item>
+  <mat-list-item
+    >Data de Lançamento:
+    {{ film.releseDate | date: "dd/MM/yyyy" }}</mat-list-item
+  >
+  <mat-list-item>Gênero: {{ film.gender }}</mat-list-item>
+  <mat-list-item>Descrição: {{ film.description }}</mat-list-item>
+  <mat-list-item>
+    Nota: <a [href]="film.imdbUrl">{{ film.imdbRating }}</a>
+  </mat-list-item>
+  <mat-list-item>
+    <img mat-card-image [src]="film.urlPhoto || noPicture" [alt]="film.title" />
+  </mat-list-item>
+</mat-list>
+
+<ng-template #noRegister>
+  <h1 class="full-width main-div">Nenhum registro encontrado</h1>
+</ng-template>

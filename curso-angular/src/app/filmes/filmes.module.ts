@@ -8,6 +8,7 @@ import { CadastroFilmesComponent } from "./cadastro-filmes/cadastro-filmes.compo
 import { MaterialModule } from "../shared/material/material.module";
 import { ListagemFilmesComponent } from "./listagem-filmes/listagem-filmes.component";
 import { FieldsModule } from "../shared/components/fields/fields.module";
+import { ShowFilmsComponent } from "./show-films/show-films.component";
 
 @NgModule({
   imports: [
@@ -18,6 +19,10 @@ import { FieldsModule } from "../shared/components/fields/fields.module";
     FieldsModule,
     InfiniteScrollModule
   ],
-  declarations: [CadastroFilmesComponent, ListagemFilmesComponent]
+  declarations: [
+    CadastroFilmesComponent,
+    ListagemFilmesComponent,
+    ShowFilmsComponent
+  ]
 })
 export class FilmesModule {}

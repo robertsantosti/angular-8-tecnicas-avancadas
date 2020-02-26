@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder } from "@angular/forms";
+import { Router } from "@angular/router";
 import { debounceTime } from "rxjs/operators";
 import { FilmsService } from "src/app/core/films.service";
 import { Film } from "src/app/shared/models/film";
@@ -21,7 +22,11 @@ export class ListagemFilmesComponent implements OnInit {
   readonly noPicture =
     "https://www.termoparts.com.br/wp-content/uploads/2017/10/no-image.jpg";
 
-  constructor(private filmsService: FilmsService, private fb: FormBuilder) {}
+  constructor(
+    private filmsService: FilmsService,
+    private fb: FormBuilder,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.filterList = this.fb.group({
@@ -62,6 +67,10 @@ export class ListagemFilmesComponent implements OnInit {
     this.showFilms();
   }
 
+  open(id: number): void {
+    this.router.navigateByUrl(`/filmes/${id}`);
+  }
+
   private showFilms(): void {
     this.config.page++;
     this.filmsService
@@ -74,6 +83,4 @@ export class ListagemFilmesComponent implements OnInit {
     this.films = [];
     this.showFilms();
   }
-
-  open() {}
 }

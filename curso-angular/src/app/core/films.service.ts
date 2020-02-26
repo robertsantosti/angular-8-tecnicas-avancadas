@@ -24,4 +24,8 @@ export class FilmsService {
     const configParams = this.configService.configurationParams(config);
     return this.http.get<Film[]>(url, { params: configParams });
   }
+
+  show(id: number): Observable<Film> {
+    return this.http.get<Film>(url + id);
+  }
 }
