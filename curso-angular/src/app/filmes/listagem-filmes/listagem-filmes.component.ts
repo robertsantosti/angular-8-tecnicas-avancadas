@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder } from "@angular/forms";
+import { debounceTime } from "rxjs/operators";
 import { FilmsService } from "src/app/core/films.service";
 import { Film } from "src/app/shared/models/film";
 import { ConfigParams } from "src/app/shared/models/config-params";
@@ -17,6 +18,8 @@ export class ListagemFilmesComponent implements OnInit {
     page: 0,
     limit: 4
   };
+  readonly noPicture =
+    "https://www.termoparts.com.br/wp-content/uploads/2017/10/no-image.jpg";
 
   constructor(private filmsService: FilmsService, private fb: FormBuilder) {}
 
@@ -26,15 +29,21 @@ export class ListagemFilmesComponent implements OnInit {
       gender: [""]
     });
 
-    this.filterList.get("text").valueChanges.subscribe((val: string) => {
-      this.config.search = val;
-      this.resetSearch();
-    });
+    this.filterList
+      .get("text")
+      .valueChanges.pipe(debounceTime(400))
+      .subscribe((val: string) => {
+        this.config.search = val;
+        this.resetSearch();
+      });
 
-    this.filterList.get("gender").valueChanges.subscribe((val: string) => {
-      this.config.otherSearch = { type: "gender", value: val };
-      this.resetSearch();
-    });
+    this.filterList
+      .get("gender")
+      .valueChanges.pipe(debounceTime(400))
+      .subscribe((val: string) => {
+        this.config.otherSearch = { type: "gender", value: val };
+        this.resetSearch();
+      });
 
     this.genders = [
       "Ação",

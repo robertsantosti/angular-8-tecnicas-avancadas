@@ -22,17 +22,22 @@
     </div>
   </form>
 </mat-card>
-<div class="home-content" infiniteScroll (scrolled)="onScroll()">
+<div
+  class="home-content"
+  infiniteScroll
+  (scrolled)="onScroll()"
+  *ngIf="films.length; else noRegister"
+>
   <mat-card class="home-card" *ngFor="let film of films">
     <mat-card-header>
       <div mat-card-avatar></div>
       <mat-card-title>{{ film.title }}</mat-card-title>
       <mat-card-subtitle>{{ film.gender }}</mat-card-subtitle>
     </mat-card-header>
-    <img mat-card-image [src]="film.urlPhoto" [alt]="film.title" />
+    <img mat-card-image [src]="film.urlPhoto || noPicture" [alt]="film.title" />
     <mat-card-content>
-      <p>
-        {{ film.description }}
+      <p class="quebrar-linha">
+        {{ film.description || "Sem descrião disponível" }}
       </p>
     </mat-card-content>
     <mat-card-actions>
@@ -40,3 +45,7 @@
     </mat-card-actions>
   </mat-card>
 </div>
+
+<ng-template #noRegister>
+  <h1 class="full-width main-div">Nenhum registro encontrado</h1>
+</ng-template>
