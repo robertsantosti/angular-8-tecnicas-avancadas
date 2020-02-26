@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { FilmsService } from "src/app/core/films.service";
 import { Film } from "src/app/shared/models/film";
+import { ConfigParams } from "src/app/shared/models/config-params";
 
 @Component({
   selector: "dio-listagem-filmes",
@@ -10,10 +11,12 @@ import { Film } from "src/app/shared/models/film";
 })
 export class ListagemFilmesComponent implements OnInit {
   films: Film[] = [];
-  page = 0;
   filterList: FormGroup;
   genders: Array<string>;
-  readonly quant = 4;
+  config: ConfigParams = {
+    page: 0,
+    limit: 4
+  };
 
   constructor(private filmsService: FilmsService, private fb: FormBuilder) {}
 
@@ -21,6 +24,16 @@ export class ListagemFilmesComponent implements OnInit {
     this.filterList = this.fb.group({
       text: [""],
       gender: [""]
+    });
+
+    this.filterList.get("text").valueChanges.subscribe((val: string) => {
+      this.config.search = val;
+      this.resetSearch();
+    });
+
+    this.filterList.get("gender").valueChanges.subscribe((val: string) => {
+      this.config.otherSearch = { type: "gender", value: val };
+      this.resetSearch();
     });
 
     this.genders = [
@@ -41,10 +54,16 @@ export class ListagemFilmesComponent implements OnInit {
   }
 
   private showFilms(): void {
-    this.page++;
+    this.config.page++;
     this.filmsService
-      .get(this.page, this.quant)
+      .get(this.config)
       .subscribe((films: Film[]) => this.films.push(...films));
+  }
+
+  private resetSearch(): void {
+    this.config.page = 0;
+    this.films = [];
+    this.showFilms();
   }
 
   open() {}
