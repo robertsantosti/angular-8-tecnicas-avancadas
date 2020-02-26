@@ -9,10 +9,18 @@
   <mat-list-item>
     Nota: <a [href]="film.imdbUrl">{{ film.imdbRating }}</a>
   </mat-list-item>
-  <mat-list-item>
-    <img mat-card-image [src]="film.urlPhoto || noPicture" [alt]="film.title" />
-  </mat-list-item>
+  <img mat-card-image [src]="film.urlPhoto || noPicture" [alt]="film.title" />
 </mat-list>
+<mat-card>
+  <mat-card-actions>
+    <button type="button" (click)="delete()" color="accent" mat-raised-button>
+      Excluir
+    </button>
+    <button type="button" click="()" color="warn" mat-raised-button>
+      Editar
+    </button>
+  </mat-card-actions>
+</mat-card>
 
 <ng-template #noRegister>
   <h1 class="full-width main-div">Nenhum registro encontrado</h1>

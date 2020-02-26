@@ -28,4 +28,8 @@ export class FilmsService {
   show(id: number): Observable<Film> {
     return this.http.get<Film>(url + id);
   }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(url + id);
+  }
 }
