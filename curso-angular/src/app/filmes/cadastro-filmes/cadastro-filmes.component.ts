@@ -59,7 +59,13 @@ export class CadastroFilmesComponent implements OnInit {
     }
 
     const film = this.cadastro.getRawValue() as Film;
-    this.save(film);
+
+    if (this.id) {
+      film.id = this.id;
+      this.update(film);
+    } else {
+      this.save(film);
+    }
   }
 
   public resetForm(): void {
@@ -93,6 +99,36 @@ export class CadastroFilmesComponent implements OnInit {
           data: {
             title: "Erro!",
             description: "Não foi possivel cadastrar esse registro!",
+            btnSuccess: "Fechar",
+            btnColorSuccess: "warn",
+            hasBtnClose: false
+          }
+        });
+      }
+    );
+  }
+
+  private update(film: Film): void {
+    this.filmService.update(film).subscribe(
+      () => {
+        const dialogRef = this.dialog.open(AlertComponent, {
+          data: {
+            title: "Sucesso!",
+            description: "Seu registro foi atualizado com sucesso!",
+            btnSuccess: "Ir para a listagem",
+            btnColorSuccess: "accent",
+            hasBtnClose: false
+          }
+        });
+        dialogRef
+          .afterClosed()
+          .subscribe(() => this.router.navigateByUrl("filmes"));
+      },
+      () => {
+        this.dialog.open(AlertComponent, {
+          data: {
+            title: "Erro!",
+            description: "Não foi possivel editar esse registro!",
             btnSuccess: "Fechar",
             btnColorSuccess: "warn",
             hasBtnClose: false
